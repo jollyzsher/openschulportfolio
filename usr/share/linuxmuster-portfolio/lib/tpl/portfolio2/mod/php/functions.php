@@ -152,6 +152,22 @@ function tpl_portfolio2_boxes($sidebar) {
         echo "<a href=\"". $link . "\" class=\"editlink\">". $lang["edit_include"] . "</a>\n";
     }
     echo "</div>";
+    
+    //tobias hack start: adding a hard coded TOC, if the page "toc" is found nearby
+    $sidebarTOC = page_findnearest('toc');
+	if ( $sidebarTOC ) {
+    	echo "<div class= \"include_edit\">";
+    	tpl_include_page($sidebarTOC, 1, 1);
+	    if (auth_quickaclcheck($sidebarTOC) > AUTH_READ) {
+    	    $link = wl($sidebarTOC, array("do"=>"edit"));
+	         if ( $conf['useslash'] ) {
+    	        $link = wl($topMenu, array("do"=>"edit"),true);
+    	    	}
+        	echo "<a href=\"". $link . "\" class=\"editlink\">". $lang["edit_include"] . "</a>\n";
+    	}	
+    	echo "</div>";
+	}	
+	// tobias hack end
  
    // checking argument
     if (empty($boxes) || !is_array($boxes)) {
